@@ -43,12 +43,18 @@ test:
     - pytest -vvv tests
 
 about:
-  homepage: https://github.com/jupyter-ai-contrib/jupyter-ai-tools
-  summary: "A suite of tools for AI agents in Jupyter"
+  home: https://github.com/jupyter-ai-contrib/jupyter-ai-tools
+  summary: A suite of tools for AI agents in Jupyter
+  description: |
+    jupyter_ai_tools is a Jupyter Server extension that exposes a collection of
+    powerful, agent-friendly tools for interacting with notebooks and Git repositories.
+    It is designed for use by AI personas (like those in Jupyter AI) to programmatically
+    modify notebooks, manage code cells, and interact with version control systems.
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
-  documentation: https://jupyter-ai.readthedocs.io/
-  repository: https://github.com/jupyter-ai-contrib/jupyter-ai-tools
+  dev_url: https://github.com/jupyter-ai-contrib/jupyter-ai-tools
+  doc_url: https://jupyter-ai.readthedocs.io
 
 extra:
   recipe-maintainers:
