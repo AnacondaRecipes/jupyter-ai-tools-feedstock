@@ -28,13 +28,19 @@ requirements:
     - mcp >=1.0
 
 test:
+  source_files:
+    - tests
   imports:
     - jupyter_ai_tools
   requires:
     - pip
+    - pytest >=7.0
+    - pytest-asyncio
+    - mcp
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -vvv tests
 
 about:
   homepage: https://github.com/jupyter-ai-contrib/jupyter-ai-tools
