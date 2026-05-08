@@ -22,8 +22,8 @@ requirements:
   run:
     - python
     - jupyter_server >=1.6,<3
-    - jupyter_ydoc >=3.0.0,<4.0.0
     - pycrdt
+    - jupyter_ydoc >=3.0.0,<4.0.0
 
 tests:
   - python:
