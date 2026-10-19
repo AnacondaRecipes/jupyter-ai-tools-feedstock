@@ -10,7 +10,11 @@ source:
   sha256: 37423f452072ed1b6eb7bf5ac142a8476d434bb4f6a076c4aa2ebfd9525fe7c0
 
 build:
-  number: 0
+  # Bumped to 1 for this test-only change. The build number has to move so the
+  # artifact filename differs from the 0.5.1-*_0 packages already on pkgs/main;
+  # otherwise the CI test env resolves the existing package and the updated test
+  # commands are never exercised (the run then fails on the old command).
+  number: 1
   skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
@@ -40,7 +44,14 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -vvv tests
+    # mcp 2.0 renamed ImageContent.mimeType to mime_type. The package's own code returns
+    # the new field name correctly (the returned object has mime_type set), but these five
+    # bundled tests still read the removed alias-less attribute and so raise AttributeError.
+    # Upstream fixed the tests in 0.7.0 by asserting model_dump(by_alias=True)["mimeType"];
+    # we cannot take that bump yet because it adds a runtime dependency on
+    # jupyterlab-ai-commands, which is not available on win-arm64. Deselect just the five
+    # stale tests (the other 11 tests in this file still run).
+    - pytest -vvv tests --deselect tests/test_read_cell_image.py::test_returns_png_image_content --deselect tests/test_read_cell_image.py::test_returns_jpeg_image_content --deselect tests/test_read_cell_image.py::test_normalizes_jpg_alias_to_jpeg --deselect tests/test_read_cell_image.py::test_returns_gif_and_logs_warning --deselect tests/test_read_cell_image.py::test_returns_webp_image_content
 
 about:
   home: https://github.com/jupyter-ai-contrib/jupyter-ai-tools
