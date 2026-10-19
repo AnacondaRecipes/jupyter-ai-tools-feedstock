@@ -10,7 +10,11 @@ source:
   sha256: 37423f452072ed1b6eb7bf5ac142a8476d434bb4f6a076c4aa2ebfd9525fe7c0
 
 build:
-  number: 0
+  # Bumped to 1 for this test-only change. The build number has to move so the
+  # artifact filename differs from the 0.5.1-*_0 packages already on pkgs/main;
+  # otherwise the CI test env resolves the existing package and the updated test
+  # commands are never exercised (the run then fails on the old command).
+  number: 1
   skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
